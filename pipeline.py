@@ -1,5 +1,6 @@
 import types
 
+
 class Pipeline(object):
 
     methods = {}
@@ -20,18 +21,21 @@ class Pipeline(object):
         def inner(self, *args, **kwargs):
             self.gen = self.methods[name](self.gen, *args, **kwargs)
             return self
-        return types.MethodType(inner, self)        
+        return types.MethodType(inner, self)
 
     def __iter__(self):
         return self.gen.__iter__()
+
 
 @Pipeline.register
 def map(lst, fn, *args, **kwargs):
     return (fn(elm, *args, **kwargs) for elm in lst)
 
+
 @Pipeline.register
 def filter(lst, fn, *args, **kwargs):
     return (elm for elm in lst if fn(elm, *args, **kwargs))
+
 
 @Pipeline.register
 def take(lst, count, start=0, step=1):
@@ -41,4 +45,3 @@ def take(lst, count, start=0, step=1):
         yield next(lst)
         for i in range(step-1):
             next(lst)
-
