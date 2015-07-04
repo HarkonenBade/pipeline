@@ -1,11 +1,5 @@
 import types
 
-class PipelineException(Exception):
-    pass
-
-class InvalidArgumentException(PipelineException):
-    pass
-
 class Pipeline(object):
 
     methods = {}
@@ -33,14 +27,6 @@ class Pipeline(object):
 
     def __iter__(self):
         return self.gen.__iter__()
-
-    @classmethod
-    def _getfn(cls, fn):
-        if isinstance(fn, types.FunctionType):
-            return fn
-        if fn in cls.methods:
-            return cls.methods[fn]
-        raise InvalidArgumentException
 
 @Pipeline.register
 def map(lst, fn, *args, **kwargs):
