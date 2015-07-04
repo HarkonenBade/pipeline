@@ -22,9 +22,6 @@ class Pipeline(object):
             return self
         return types.MethodType(inner, self)        
 
-    def __len__(self):
-        return self.gen.__len__()
-
     def __iter__(self):
         return self.gen.__iter__()
 
